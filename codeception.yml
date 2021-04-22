@@ -1,7 +1,7 @@
-namespace: AvalaraTaxShipmentTax
+namespace: AvalaraTaxShipment
 
 include:
-    - tests/SprykerEcoTest/Zed/AvalaraTaxShipmentTax
+    - tests/SprykerEcoTest/Zed/AvalaraTaxShipment
 
 paths:
     tests: tests

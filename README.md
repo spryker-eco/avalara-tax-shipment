@@ -1,13 +1,13 @@
-# AvalaraTaxShipmentTax Module
-[![Build Status](https://travis-ci.org/spryker-eco/avalara-tax-shipment-tax.svg)](https://travis-ci.org/spryker-eco/avalara-tax-shipment-tax)
+# AvalaraTaxShipment Module
+[![Build Status](https://travis-ci.org/spryker-eco/avalara-tax-shipment.svg)](https://travis-ci.org/spryker-eco/avalara-tax-shipment)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg)](https://php.net/)
 
-AvalaraTaxShipmentTax module provides plugins for extending AvalaraTax module functionality with calculating taxes for shipment.
+AvalaraTaxShipment module provides functionality to calculate taxes for shipment.
 
 ## Installation
 
 ```
-composer require spryker-eco/avalara-tax-shipment-tax
+composer require spryker-eco/avalara-tax-shipment
 ```
 
 ## Documentation

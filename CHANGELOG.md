@@ -1,3 +1,3 @@
-# AvalaraTaxShipmentTax Changelog
+# AvalaraTaxShipment Changelog
 
-[Release Changelog](https://github.com/spryker-eco/avalara-tax-shipment-tax/releases)
+[Release Changelog](https://github.com/spryker-eco/avalara-tax-shipment/releases)

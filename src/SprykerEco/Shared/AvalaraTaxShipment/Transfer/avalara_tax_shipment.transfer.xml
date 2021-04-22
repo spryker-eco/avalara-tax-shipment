@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<transfers xmlns="spryker:transfer-01"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="spryker:transfer-01 http://static.spryker.com/transfer-01.xsd">
+
+    <transfer name="ShipmentMethod">
+        <property name="avalaraTaxCode" type="string"/>
+        <property name="shipmentMethodKey" type="string"/>
+        <property name="taxRate" type="float"/>
+        <property name="storeCurrencyPrice" type="int"/>
+        <property name="name" type="string"/>
+    </transfer>
+
+    <transfer name="AvalaraTransactionLine">
+        <property name="itemCode" type="string"/>
+        <property name="quantity" type="decimal"/>
+        <property name="ref1" type="string"/>
+        <property name="ref2" type="string"/>
+        <property name="tax" type="decimal"/>
+        <property name="details" type="string"/>
+    </transfer>
+
+    <transfer name="Expense">
+        <property name="shipment" type="Shipment"/>
+        <property name="type" type="string"/>
+        <property name="sumTaxAmount" type="int"/>
+        <property name="taxRate" type="float"/>
+    </transfer>
+
+    <transfer name="AvalaraCreateTransactionResponse">
+        <property name="transaction" type="AvalaraTransaction"/>
+    </transfer>
+
+    <transfer name="CalculableObject">
+        <property name="items" type="Item[]" singular="item"/>
+        <property name="shipment" type="Shipment"/>
+        <property name="originalQuote" type="Quote"/>
+        <property name="priceMode" type="string"/>
+        <property name="shippingAddress" type="Address"/>
+    </transfer>
+
+    <transfer name="ShipmentGroup">
+        <property name="shipment" type="Shipment"/>
+        <property name="items" type="Item[]" singular="item"/>
+    </transfer>
+
+    <transfer name="AvalaraTransaction">
+        <property name="lines" type="AvalaraTransactionLine[]" singular="line"/>
+        <property name="addresses" type="string"/>
+    </transfer>
+
+    <transfer name="AvalaraCreateTransactionRequest">
+        <property name="transaction" type="AvalaraCreateTransaction"/>
+    </transfer>
+
+    <transfer name="Item">
+        <property name="shipment" type="Shipment"/>
+    </transfer>
+
+    <transfer name="Shipment">
+        <property name="shippingAddress" type="Address"/>
+        <property name="method" type="ShipmentMethod"/>
+    </transfer>
+
+    <transfer name="AvalaraLineItem">
+        <property name="taxCode" type="string"/>
+        <property name="shippingAddress" type="AvalaraAddress"/>
+        <property name="quantity" type="int"/>
+        <property name="amount" type="decimal"/>
+        <property name="itemCode" type="string"/>
+        <property name="reference1" type="string"/>
+        <property name="reference2" type="string"/>
+        <property name="taxIncluded" type="bool"/>
+        <property name="description" type="string"/>
+    </transfer>
+
+    <transfer name="AvalaraAddress">
+        <property name="type" type="string"/>
+        <property name="address" type="Address"/>
+    </transfer>
+
+    <transfer name="Address">
+        <property name="zipCode" type="string"/>
+    </transfer>
+
+    <transfer name="AvalaraCreateTransaction">
+        <property name="lines" type="AvalaraLineItem[]" singular="line"/>
+    </transfer>
+
+    <transfer name="Quote">
+        <property name="expenses" type="Expense[]" singular="expense"/>
+    </transfer>
+
+</transfers>
