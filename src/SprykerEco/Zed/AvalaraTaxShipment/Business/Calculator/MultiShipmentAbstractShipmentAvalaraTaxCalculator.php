@@ -73,7 +73,7 @@ class MultiShipmentAbstractShipmentAvalaraTaxCalculator extends AbstractShipment
                 continue;
             }
 
-            if ($this->isShipmentMethodKeyMatch($shipmentGroupTransfer, $avalaraTransactionLineTransfer)) {
+            if (!$this->isShipmentMethodKeyMatch($shipmentGroupTransfer, $avalaraTransactionLineTransfer)) {
                 continue;
             }
 
@@ -171,6 +171,6 @@ class MultiShipmentAbstractShipmentAvalaraTaxCalculator extends AbstractShipment
         ShipmentGroupTransfer $shipmentGroupTransfer,
         AvalaraTransactionLineTransfer $avalaraTransactionLineTransfer
     ): bool {
-        return $shipmentGroupTransfer->getShipmentOrFail()->getMethodOrFail()->getShipmentMethodKeyOrFail() !== $avalaraTransactionLineTransfer->getRef2OrFail();
+        return $shipmentGroupTransfer->getShipmentOrFail()->getMethodOrFail()->getShipmentMethodKeyOrFail() === $avalaraTransactionLineTransfer->getRef2OrFail();
     }
 }
