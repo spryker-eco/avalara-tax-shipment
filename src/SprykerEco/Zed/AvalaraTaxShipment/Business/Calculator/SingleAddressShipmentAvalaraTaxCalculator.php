@@ -33,14 +33,7 @@ class SingleAddressShipmentAvalaraTaxCalculator extends AbstractShipmentAvalaraT
             $taxRate = $this->sumTaxRateFromTransactionLineDetails($avalaraTransactionLineTransfer->getDetailsOrFail());
             $taxAmount = $this->moneyFacade->convertDecimalToInteger($avalaraTransactionLineTransfer->getTaxOrFail()->toFloat());
 
-            if ($calculableObjectTransfer->getOriginalQuote()) {
-                $this->setQuoteExpenseTax(
-                    $calculableObjectTransfer->getExpenses(),
-                    $shipmentTransfer,
-                    $taxRate,
-                    $taxAmount
-                );
-            }
+            $this->setShipmentExpenseTax($calculableObjectTransfer->getExpenses(), $shipmentTransfer, $taxRate, $taxAmount);
 
             $shipmentTransfer->getMethodOrFail()->setTaxRate($taxRate);
         }

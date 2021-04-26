@@ -18,14 +18,14 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
     /**
      * @var \SprykerEco\Zed\AvalaraTaxShipment\Business\Mapper\AvalaraLineItemMapperInterface
      */
-    protected $avalaraItemLineMapper;
+    protected $avalaraLineItemMapper;
 
     /**
-     * @param \SprykerEco\Zed\AvalaraTaxShipment\Business\Mapper\AvalaraLineItemMapperInterface $avalaraItemLineMapper
+     * @param \SprykerEco\Zed\AvalaraTaxShipment\Business\Mapper\AvalaraLineItemMapperInterface $avalaraLineItemMapper
      */
-    public function __construct(AvalaraLineItemMapperInterface $avalaraItemLineMapper)
+    public function __construct(AvalaraLineItemMapperInterface $avalaraLineItemMapper)
     {
-        $this->avalaraItemLineMapper = $avalaraItemLineMapper;
+        $this->avalaraLineItemMapper = $avalaraLineItemMapper;
     }
 
     /**
@@ -66,7 +66,7 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
                 continue;
             }
 
-            $avalaraLineItemTransfer = $this->avalaraItemLineMapper->mapShipmentTransferToAvalaraLineItemTransfer(
+            $avalaraLineItemTransfer = $this->avalaraLineItemMapper->mapShipmentTransferToAvalaraLineItemTransfer(
                 $itemTransfer->getShipmentOrFail(),
                 new AvalaraLineItemTransfer(),
                 $calculableObjectTransfer->getPriceModeOrFail()
@@ -88,7 +88,7 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
         AvalaraCreateTransactionRequestTransfer $avalaraCreateTransactionRequestTransfer,
         CalculableObjectTransfer $calculableObjectTransfer
     ): AvalaraCreateTransactionRequestTransfer {
-        $avalaraLineItemTransfer = $this->avalaraItemLineMapper->mapShipmentTransferToAvalaraLineItemTransfer(
+        $avalaraLineItemTransfer = $this->avalaraLineItemMapper->mapShipmentTransferToAvalaraLineItemTransfer(
             $calculableObjectTransfer->getShipmentOrFail(),
             new AvalaraLineItemTransfer(),
             $calculableObjectTransfer->getPriceModeOrFail()

@@ -109,7 +109,7 @@ class AvalaraTaxShipmentFacadeTest extends Unit
             ],
             [
                 $expenseTransferMi,
-                $expenseTransferNy
+                $expenseTransferNy,
             ]
         )->setOriginalQuote($quoteTransfer);
 
@@ -180,7 +180,7 @@ class AvalaraTaxShipmentFacadeTest extends Unit
                 $this->createItemTransfer(),
             ],
             [
-                $expenseTransfer
+                $expenseTransfer,
             ]
         )
             ->setShipment($shipmentTransfer)

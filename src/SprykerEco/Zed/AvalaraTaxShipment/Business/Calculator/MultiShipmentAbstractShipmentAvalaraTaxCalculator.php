@@ -48,14 +48,7 @@ class MultiShipmentAbstractShipmentAvalaraTaxCalculator extends AbstractShipment
             $taxRate = $this->sumTaxRateFromTransactionLineDetails($avalaraTransactionLineTransfer->getDetailsOrFail());
             $taxAmount = $this->moneyFacade->convertDecimalToInteger($avalaraTransactionLineTransfer->getTaxOrFail()->toFloat());
 
-            if ($calculableObjectTransfer->getOriginalQuote()) {
-                $this->setQuoteExpenseTax(
-                    $calculableObjectTransfer->getExpenses(),
-                    $shipmentGroupTransfer->getShipmentOrFail(),
-                    $taxRate,
-                    $taxAmount
-                );
-            }
+            $this->setShipmentExpenseTax($calculableObjectTransfer->getExpenses(), $shipmentGroupTransfer->getShipmentOrFail(), $taxRate, $taxAmount);
 
             $this->setTaxRateForShipmentGroupItems($shipmentGroupTransfer, $taxRate);
         }
@@ -80,7 +73,7 @@ class MultiShipmentAbstractShipmentAvalaraTaxCalculator extends AbstractShipment
                 continue;
             }
 
-            if ($shipmentGroupTransfer->getShipmentOrFail()->getMethodOrFail()->getShipmentMethodKeyOrFail() !== $avalaraTransactionLineTransfer->getRef2OrFail()) {
+            if ($this->isShipmentMethodKeyMatch($shipmentGroupTransfer, $avalaraTransactionLineTransfer)) {
                 continue;
             }
 
@@ -166,5 +159,18 @@ class MultiShipmentAbstractShipmentAvalaraTaxCalculator extends AbstractShipment
         }
 
         return null;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\ShipmentGroupTransfer $shipmentGroupTransfer
+     * @param \Generated\Shared\Transfer\AvalaraTransactionLineTransfer $avalaraTransactionLineTransfer
+     *
+     * @return bool
+     */
+    protected function isShipmentMethodKeyMatch(
+        ShipmentGroupTransfer $shipmentGroupTransfer,
+        AvalaraTransactionLineTransfer $avalaraTransactionLineTransfer
+    ): bool {
+        return $shipmentGroupTransfer->getShipmentOrFail()->getMethodOrFail()->getShipmentMethodKeyOrFail() !== $avalaraTransactionLineTransfer->getRef2OrFail();
     }
 }

@@ -12,7 +12,6 @@ use Generated\Shared\Transfer\AvalaraCreateTransactionResponseTransfer;
 use Generated\Shared\Transfer\CalculableObjectTransfer;
 use Generated\Shared\Transfer\ExpenseTransfer;
 use Generated\Shared\Transfer\ShipmentTransfer;
-use SprykerEco\Zed\AvalaraTaxShipment\Business\Mapper\AvalaraLineItemMapper;
 use SprykerEco\Zed\AvalaraTaxShipment\Dependency\Facade\AvalaraTaxShipmentToMoneyFacadeInterface;
 use SprykerEco\Zed\AvalaraTaxShipment\Dependency\Service\AvalaraTaxShipmentToShipmentServiceInterface;
 use SprykerEco\Zed\AvalaraTaxShipment\Dependency\Service\AvalaraTaxShipmentToUtilEncodingServiceInterface;
@@ -99,13 +98,13 @@ abstract class AbstractShipmentAvalaraTaxCalculator implements ShipmentAvalaraTa
      *
      * @return \Generated\Shared\Transfer\ExpenseTransfer|null
      */
-    protected function findQuoteExpenseByShipment(
+    protected function findExpenseByShipment(
         ArrayObject $expenseTransfers,
         ShipmentTransfer $shipmentTransfer
     ): ?ExpenseTransfer {
         $itemShipmentKey = $this->shipmentService->getShipmentHashKey($shipmentTransfer);
         foreach ($expenseTransfers as $expenseTransfer) {
-            if (!$expenseTransfer->getShipment() || $expenseTransfer->getType() !== static::SHIPMENT_EXPENSE_TYPE) {
+            if (!$this->isShipmentExpense($expenseTransfer)) {
                 continue;
             }
 
@@ -127,9 +126,9 @@ abstract class AbstractShipmentAvalaraTaxCalculator implements ShipmentAvalaraTa
      *
      * @return void
      */
-    protected function setQuoteExpenseTax(ArrayObject $expenseTransfers, ShipmentTransfer $shipmentTransfer, float $taxRate, int $taxAmount): void
+    protected function setShipmentExpenseTax(ArrayObject $expenseTransfers, ShipmentTransfer $shipmentTransfer, float $taxRate, int $taxAmount): void
     {
-        $expenseTransfer = $this->findQuoteExpenseByShipment($expenseTransfers, $shipmentTransfer);
+        $expenseTransfer = $this->findExpenseByShipment($expenseTransfers, $shipmentTransfer);
 
         if (!$expenseTransfer) {
             return;
@@ -137,5 +136,15 @@ abstract class AbstractShipmentAvalaraTaxCalculator implements ShipmentAvalaraTa
 
         $expenseTransfer->setTaxRate($taxRate);
         $expenseTransfer->setSumTaxAmount($taxAmount);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\ExpenseTransfer $expenseTransfer
+     *
+     * @return bool
+     */
+    protected function isShipmentExpense(ExpenseTransfer $expenseTransfer): bool
+    {
+        return $expenseTransfer->getShipment() && $expenseTransfer->getType() === static::SHIPMENT_EXPENSE_TYPE;
     }
 }

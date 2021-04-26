@@ -21,6 +21,8 @@ class AvalaraShipmentCreateTransactionRequestExpanderPlugin extends AbstractPlug
     /**
      * {@inheritDoc}
      * - Expands `AvalaraCreateTransactionRequestTransfer` with shipments.
+     * - Requires `CalculableObjectTransfer.items.shipment.method.avalaraTaxCode` and `CalculableObjectTransfer.priceMode` to be set.
+     * - Requires `AvalaraCreateTransactionRequestTransfer.transaction` to be set.
      *
      * @api
      *
