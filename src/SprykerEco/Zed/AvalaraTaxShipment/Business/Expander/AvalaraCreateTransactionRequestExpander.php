@@ -38,6 +38,10 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
         AvalaraCreateTransactionRequestTransfer $avalaraCreateTransactionRequestTransfer,
         CalculableObjectTransfer $calculableObjectTransfer
     ): AvalaraCreateTransactionRequestTransfer {
+        if (!$this->isShipmentMethodSelected($calculableObjectTransfer)) {
+            return $avalaraCreateTransactionRequestTransfer;
+        }
+
         if ($this->isMultiAddressShipment($calculableObjectTransfer)) {
             return $this->expandAvalaraCreateTransactionWithItemLevelShipment(
                 $avalaraCreateTransactionRequestTransfer,
@@ -97,6 +101,26 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
         $avalaraCreateTransactionRequestTransfer->getTransactionOrFail()->addLine($avalaraLineItemTransfer);
 
         return $avalaraCreateTransactionRequestTransfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CalculableObjectTransfer $calculableObjectTransfer
+     *
+     * @return bool
+     */
+    protected function isShipmentMethodSelected(CalculableObjectTransfer $calculableObjectTransfer): bool
+    {
+        if ($calculableObjectTransfer->getShipment() && $calculableObjectTransfer->getShipmentOrFail()->getMethod()) {
+            return true;
+        }
+
+        foreach ($calculableObjectTransfer->getItems() as $itemTransfer) {
+            if (!$this->isItemHasShipmentMethod($itemTransfer)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
