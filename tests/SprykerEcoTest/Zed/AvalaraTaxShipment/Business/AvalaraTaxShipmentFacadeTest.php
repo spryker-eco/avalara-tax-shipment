@@ -49,6 +49,7 @@ class AvalaraTaxShipmentFacadeTest extends Unit
     protected const TEST_SHIPMENT_TAX_AMOUNT_MI = 0.28;
     protected const TEST_SHIPMENT_TAX_RATE_NY = 8.875;
     protected const TEST_SHIPMENT_TAX_AMOUNT_NY = 0.40;
+    protected const TEST_AVALARA_TAX_CODE = 'TESTCODE';
 
     /**
      * @var \SprykerEcoTest\Zed\AvalaraTaxShipment\AvalaraTaxShipmentBusinessTester
@@ -63,7 +64,10 @@ class AvalaraTaxShipmentFacadeTest extends Unit
         // Arrange
         $shipmentTransfer = (new ShipmentBuilder())
             ->withShippingAddress([AddressTransfer::ZIP_CODE => static::TEST_ZIP_CODE_MI])
-            ->withMethod([ShipmentMethodTransfer::SHIPMENT_METHOD_KEY => static::TEST_SHIPPING_METHOD_KEY])
+            ->withMethod([
+                ShipmentMethodTransfer::SHIPMENT_METHOD_KEY => static::TEST_SHIPPING_METHOD_KEY,
+                ShipmentMethodTransfer::AVALARA_TAX_CODE => static::TEST_AVALARA_TAX_CODE,
+            ])
             ->build();
 
         $calculableObjectTransfer = $this->createCalculableObjectTransfer([
