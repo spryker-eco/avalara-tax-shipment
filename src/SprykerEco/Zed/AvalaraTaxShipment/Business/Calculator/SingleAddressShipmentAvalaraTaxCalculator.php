@@ -23,7 +23,11 @@ class SingleAddressShipmentAvalaraTaxCalculator extends AbstractShipmentAvalaraT
         CalculableObjectTransfer $calculableObjectTransfer,
         AvalaraCreateTransactionResponseTransfer $avalaraCreateTransactionResponseTransfer
     ): CalculableObjectTransfer {
-        $shipmentTransfer = $calculableObjectTransfer->getShipmentOrFail();
+        $shipmentTransfer = $calculableObjectTransfer->getShipment();
+
+        if (!$shipmentTransfer) {
+            return $calculableObjectTransfer;
+        }
 
         foreach ($avalaraCreateTransactionResponseTransfer->getTransactionOrFail()->getLines() as $avalaraTransactionLineTransfer) {
             if ($avalaraTransactionLineTransfer->getRef1OrFail() !== AvalaraLineItemMapper::SHIPMENT_AVALARA_LINE_TYPE) {
