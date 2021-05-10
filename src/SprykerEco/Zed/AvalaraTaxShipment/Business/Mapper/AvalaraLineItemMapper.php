@@ -55,7 +55,7 @@ class AvalaraLineItemMapper implements AvalaraLineItemMapperInterface
     ): AvalaraLineItemTransfer {
         $shipmentMethodTransfer = $shipmentTransfer->getMethodOrFail();
         $avalaraLineItemTransfer
-            ->setTaxCode($shipmentMethodTransfer->getAvalaraTaxCodeOrFail())
+            ->setTaxCode($shipmentMethodTransfer->getAvalaraTaxCode() ?? '')
             ->setQuantity(static::DEFAULT_SHIPMENT_QUANTITY)
             ->setAmount($this->moneyFacade->convertIntegerToDecimal($shipmentMethodTransfer->getStoreCurrencyPriceOrFail()))
             ->setTaxIncluded($this->isTaxIncluded($priceMode))
