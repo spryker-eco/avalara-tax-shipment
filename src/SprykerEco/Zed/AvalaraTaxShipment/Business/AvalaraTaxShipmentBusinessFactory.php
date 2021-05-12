@@ -56,7 +56,10 @@ class AvalaraTaxShipmentBusinessFactory extends AbstractBusinessFactory
      */
     public function createAvalaraCreateTransactionRequestExpander(): AvalaraCreateTransactionRequestExpanderInterface
     {
-        return new AvalaraCreateTransactionRequestExpander($this->createAvalaraLineItemMapper());
+        return new AvalaraCreateTransactionRequestExpander(
+            $this->createAvalaraLineItemMapper(),
+            $this->getShipmentService()
+        );
     }
 
     /**
