@@ -11,6 +11,7 @@ use Generated\Shared\Transfer\AvalaraCreateTransactionRequestTransfer;
 use Generated\Shared\Transfer\AvalaraLineItemTransfer;
 use Generated\Shared\Transfer\CalculableObjectTransfer;
 use Generated\Shared\Transfer\ItemTransfer;
+use Generated\Shared\Transfer\StockTransfer;
 use SprykerEco\Zed\AvalaraTaxShipment\Business\Mapper\AvalaraLineItemMapperInterface;
 
 class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactionRequestExpanderInterface
@@ -73,7 +74,8 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
             $avalaraLineItemTransfer = $this->avalaraLineItemMapper->mapShipmentTransferToAvalaraLineItemTransfer(
                 $itemTransfer->getShipmentOrFail(),
                 new AvalaraLineItemTransfer(),
-                $calculableObjectTransfer->getPriceModeOrFail()
+                $calculableObjectTransfer->getPriceModeOrFail(),
+                $itemTransfer->getWarehouse()
             );
 
             $avalaraCreateTransactionRequestTransfer->getTransactionOrFail()->addLine($avalaraLineItemTransfer);
@@ -95,12 +97,37 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
         $avalaraLineItemTransfer = $this->avalaraLineItemMapper->mapShipmentTransferToAvalaraLineItemTransfer(
             $calculableObjectTransfer->getShipmentOrFail(),
             new AvalaraLineItemTransfer(),
-            $calculableObjectTransfer->getPriceModeOrFail()
+            $calculableObjectTransfer->getPriceModeOrFail(),
+            $this->findExclusiveStockForCalculableObject($calculableObjectTransfer)
         );
 
         $avalaraCreateTransactionRequestTransfer->getTransactionOrFail()->addLine($avalaraLineItemTransfer);
 
         return $avalaraCreateTransactionRequestTransfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CalculableObjectTransfer $calculableObjectTransfer
+     *
+     * @return \Generated\Shared\Transfer\StockTransfer|null
+     */
+    protected function findExclusiveStockForCalculableObject(CalculableObjectTransfer $calculableObjectTransfer): ?StockTransfer
+    {
+        $stockTransfer = null;
+
+        foreach ($calculableObjectTransfer->getItems() as $itemTransfer) {
+            if ($itemTransfer->getWarehouse() === null) {
+                return null;
+            }
+
+            if ($stockTransfer && $stockTransfer->getNameOrFail() !== $itemTransfer->getWarehouseOrFail()->getNameOrFail()) {
+                return null;
+            }
+
+            $stockTransfer = $itemTransfer->getWarehouseOrFail();
+        }
+
+        return $stockTransfer;
     }
 
     /**

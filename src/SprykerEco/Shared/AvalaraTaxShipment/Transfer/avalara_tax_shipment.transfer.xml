@@ -36,6 +36,7 @@
         <property name="shipment" type="Shipment"/>
         <property name="originalQuote" type="Quote"/>
         <property name="priceMode" type="string"/>
+        <property name="expenses" type="Expense[]" singular="expense"/>
         <property name="shippingAddress" type="Address"/>
     </transfer>
 
@@ -72,6 +73,7 @@
         <property name="reference2" type="string"/>
         <property name="taxIncluded" type="bool"/>
         <property name="description" type="string"/>
+        <property name="sourceAddress" type="AvalaraAddress"/>
     </transfer>
 
     <transfer name="AvalaraAddress">
@@ -88,7 +90,13 @@
     </transfer>
 
     <transfer name="Quote">
-        <property name="expenses" type="Expense[]" singular="expense"/>
+    </transfer>
+
+    <transfer name="Stock">
+        <property name="address" type="StockAddress"/>
+    </transfer>
+
+    <transfer name="StockAddress">
     </transfer>
 
 </transfers>
