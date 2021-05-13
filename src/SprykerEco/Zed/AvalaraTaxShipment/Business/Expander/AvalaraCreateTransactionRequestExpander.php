@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Zed\AvalaraTaxShipment\Business\Expander;
 
+use ArrayObject;
 use Generated\Shared\Transfer\AvalaraCreateTransactionRequestTransfer;
 use Generated\Shared\Transfer\AvalaraLineItemTransfer;
 use Generated\Shared\Transfer\CalculableObjectTransfer;
@@ -83,7 +84,7 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
                 $shipmentGroupTransfer->getShipmentOrFail(),
                 new AvalaraLineItemTransfer(),
                 $calculableObjectTransfer->getPriceModeOrFail(),
-                $itemTransfer->getWarehouse()
+                $this->findExclusiveStockForItems($shipmentGroupTransfer->getItems())
             );
 
             $avalaraCreateTransactionRequestTransfer->getTransactionOrFail()->addLine($avalaraLineItemTransfer);
@@ -108,7 +109,7 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
             $calculableObjectTransfer->getShipmentOrFail(),
             new AvalaraLineItemTransfer(),
             $calculableObjectTransfer->getPriceModeOrFail(),
-            $this->findExclusiveStockForCalculableObject($calculableObjectTransfer)
+            $this->findExclusiveStockForItems($calculableObjectTransfer->getItems())
         );
 
         $avalaraCreateTransactionRequestTransfer->getTransactionOrFail()->addLine($avalaraLineItemTransfer);
@@ -117,15 +118,15 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CalculableObjectTransfer $calculableObjectTransfer
+     * @param \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
      *
      * @return \Generated\Shared\Transfer\StockTransfer|null
      */
-    protected function findExclusiveStockForCalculableObject(CalculableObjectTransfer $calculableObjectTransfer): ?StockTransfer
+    protected function findExclusiveStockForItems(ArrayObject $itemTransfers): ?StockTransfer
     {
         $stockTransfer = null;
 
-        foreach ($calculableObjectTransfer->getItems() as $itemTransfer) {
+        foreach ($itemTransfers as $itemTransfer) {
             if ($itemTransfer->getWarehouse() === null) {
                 return null;
             }
