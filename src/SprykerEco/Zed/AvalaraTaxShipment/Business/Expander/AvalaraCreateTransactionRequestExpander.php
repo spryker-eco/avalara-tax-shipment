@@ -120,7 +120,7 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
      */
     protected function isShipmentMethodSelected(CalculableObjectTransfer $calculableObjectTransfer): bool
     {
-        if ($calculableObjectTransfer->getShipment() && $calculableObjectTransfer->getShipmentOrFail()->getMethod()) {
+        if ($this->isQuoteHasShipmentMethod($calculableObjectTransfer)) {
             return true;
         }
 
@@ -150,12 +150,28 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
     }
 
     /**
+     * @deprecated Exists for Backward Compatibility reasons only.
+     *
+     * @param \Generated\Shared\Transfer\CalculableObjectTransfer $calculableObjectTransfer
+     *
+     * @return bool
+     */
+    protected function isQuoteHasShipmentMethod(CalculableObjectTransfer $calculableObjectTransfer): bool
+    {
+        return $calculableObjectTransfer->getShipment()
+            && $calculableObjectTransfer->getShipmentOrFail()->getMethod()
+            && $calculableObjectTransfer->getShipmentOrFail()->getMethodOrFail()->getStoreCurrencyPrice();
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\ItemTransfer $itemTransfer
      *
      * @return bool
      */
     protected function isItemHasShipmentMethod(ItemTransfer $itemTransfer): bool
     {
-        return $itemTransfer->getShipment() && $itemTransfer->getShipmentOrFail()->getMethod();
+        return $itemTransfer->getShipment()
+            && $itemTransfer->getShipmentOrFail()->getMethod()
+            && $itemTransfer->getShipmentOrFail()->getMethodOrFail()->getStoreCurrencyPrice();
     }
 }
