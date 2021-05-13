@@ -7,10 +7,12 @@
 
 namespace SprykerEco\Zed\AvalaraTaxShipment\Business\Expander;
 
+use ArrayObject;
 use Generated\Shared\Transfer\AvalaraCreateTransactionRequestTransfer;
 use Generated\Shared\Transfer\AvalaraLineItemTransfer;
 use Generated\Shared\Transfer\CalculableObjectTransfer;
 use Generated\Shared\Transfer\ItemTransfer;
+use Generated\Shared\Transfer\StockTransfer;
 use SprykerEco\Zed\AvalaraTaxShipment\Business\Mapper\AvalaraLineItemMapperInterface;
 use SprykerEco\Zed\AvalaraTaxShipment\Dependency\Service\AvalaraTaxShipmentToShipmentServiceInterface;
 
@@ -81,7 +83,8 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
             $avalaraLineItemTransfer = $this->avalaraLineItemMapper->mapShipmentTransferToAvalaraLineItemTransfer(
                 $shipmentGroupTransfer->getShipmentOrFail(),
                 new AvalaraLineItemTransfer(),
-                $calculableObjectTransfer->getPriceModeOrFail()
+                $calculableObjectTransfer->getPriceModeOrFail(),
+                $this->findExclusiveStockForItems($shipmentGroupTransfer->getItems())
             );
 
             $avalaraCreateTransactionRequestTransfer->getTransactionOrFail()->addLine($avalaraLineItemTransfer);
@@ -105,12 +108,37 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
         $avalaraLineItemTransfer = $this->avalaraLineItemMapper->mapShipmentTransferToAvalaraLineItemTransfer(
             $calculableObjectTransfer->getShipmentOrFail(),
             new AvalaraLineItemTransfer(),
-            $calculableObjectTransfer->getPriceModeOrFail()
+            $calculableObjectTransfer->getPriceModeOrFail(),
+            $this->findExclusiveStockForItems($calculableObjectTransfer->getItems())
         );
 
         $avalaraCreateTransactionRequestTransfer->getTransactionOrFail()->addLine($avalaraLineItemTransfer);
 
         return $avalaraCreateTransactionRequestTransfer;
+    }
+
+    /**
+     * @param \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
+     *
+     * @return \Generated\Shared\Transfer\StockTransfer|null
+     */
+    protected function findExclusiveStockForItems(ArrayObject $itemTransfers): ?StockTransfer
+    {
+        $stockTransfer = null;
+
+        foreach ($itemTransfers as $itemTransfer) {
+            if ($itemTransfer->getWarehouse() === null) {
+                return null;
+            }
+
+            if ($stockTransfer && $stockTransfer->getNameOrFail() !== $itemTransfer->getWarehouseOrFail()->getNameOrFail()) {
+                return null;
+            }
+
+            $stockTransfer = $itemTransfer->getWarehouseOrFail();
+        }
+
+        return $stockTransfer;
     }
 
     /**

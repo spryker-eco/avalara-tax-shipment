@@ -11,6 +11,9 @@ use Generated\Shared\Transfer\AvalaraCreateTransactionResponseTransfer;
 use Generated\Shared\Transfer\CalculableObjectTransfer;
 use SprykerEco\Zed\AvalaraTaxShipment\Business\Mapper\AvalaraLineItemMapper;
 
+/**
+ * @deprecated Exists for Backward Compatibility reasons only.
+ */
 class SingleAddressShipmentAvalaraTaxCalculator extends AbstractShipmentAvalaraTaxCalculator
 {
     /**
