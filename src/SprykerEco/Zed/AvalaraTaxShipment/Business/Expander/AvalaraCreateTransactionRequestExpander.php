@@ -12,6 +12,7 @@ use Generated\Shared\Transfer\AvalaraLineItemTransfer;
 use Generated\Shared\Transfer\CalculableObjectTransfer;
 use Generated\Shared\Transfer\ItemTransfer;
 use SprykerEco\Zed\AvalaraTaxShipment\Business\Mapper\AvalaraLineItemMapperInterface;
+use SprykerEco\Zed\AvalaraTaxShipment\Dependency\Service\AvalaraTaxShipmentToShipmentServiceInterface;
 
 class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactionRequestExpanderInterface
 {
@@ -21,11 +22,20 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
     protected $avalaraLineItemMapper;
 
     /**
-     * @param \SprykerEco\Zed\AvalaraTaxShipment\Business\Mapper\AvalaraLineItemMapperInterface $avalaraLineItemMapper
+     * @var \SprykerEco\Zed\AvalaraTaxShipment\Dependency\Service\AvalaraTaxShipmentToShipmentServiceInterface
      */
-    public function __construct(AvalaraLineItemMapperInterface $avalaraLineItemMapper)
-    {
+    protected $shipmentService;
+
+    /**
+     * @param \SprykerEco\Zed\AvalaraTaxShipment\Business\Mapper\AvalaraLineItemMapperInterface $avalaraLineItemMapper
+     * @param \SprykerEco\Zed\AvalaraTaxShipment\Dependency\Service\AvalaraTaxShipmentToShipmentServiceInterface $shipmentService
+     */
+    public function __construct(
+        AvalaraLineItemMapperInterface $avalaraLineItemMapper,
+        AvalaraTaxShipmentToShipmentServiceInterface $shipmentService
+    ) {
         $this->avalaraLineItemMapper = $avalaraLineItemMapper;
+        $this->shipmentService = $shipmentService;
     }
 
     /**
@@ -65,13 +75,11 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
         AvalaraCreateTransactionRequestTransfer $avalaraCreateTransactionRequestTransfer,
         CalculableObjectTransfer $calculableObjectTransfer
     ): AvalaraCreateTransactionRequestTransfer {
-        foreach ($calculableObjectTransfer->getItems() as $itemTransfer) {
-            if (!$this->isItemHasShipmentMethod($itemTransfer)) {
-                continue;
-            }
+        $shipmentGroupTransfers = $this->shipmentService->groupItemsByShipment($calculableObjectTransfer->getItems());
 
+        foreach ($shipmentGroupTransfers as $shipmentGroupTransfer) {
             $avalaraLineItemTransfer = $this->avalaraLineItemMapper->mapShipmentTransferToAvalaraLineItemTransfer(
-                $itemTransfer->getShipmentOrFail(),
+                $shipmentGroupTransfer->getShipmentOrFail(),
                 new AvalaraLineItemTransfer(),
                 $calculableObjectTransfer->getPriceModeOrFail()
             );
@@ -83,6 +91,8 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
     }
 
     /**
+     * @deprecated Exists for Backward Compatibility reasons only.
+     *
      * @param \Generated\Shared\Transfer\AvalaraCreateTransactionRequestTransfer $avalaraCreateTransactionRequestTransfer
      * @param \Generated\Shared\Transfer\CalculableObjectTransfer $calculableObjectTransfer
      *
