@@ -13,6 +13,7 @@ use Generated\Shared\Transfer\CalculableObjectTransfer;
 use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\StockTransfer;
 use SprykerEco\Zed\AvalaraTaxShipment\Business\Mapper\AvalaraLineItemMapperInterface;
+use SprykerEco\Zed\AvalaraTaxShipment\Dependency\Service\AvalaraTaxShipmentToShipmentServiceInterface;
 
 class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactionRequestExpanderInterface
 {
@@ -22,11 +23,20 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
     protected $avalaraLineItemMapper;
 
     /**
-     * @param \SprykerEco\Zed\AvalaraTaxShipment\Business\Mapper\AvalaraLineItemMapperInterface $avalaraLineItemMapper
+     * @var \SprykerEco\Zed\AvalaraTaxShipment\Dependency\Service\AvalaraTaxShipmentToShipmentServiceInterface
      */
-    public function __construct(AvalaraLineItemMapperInterface $avalaraLineItemMapper)
-    {
+    protected $shipmentService;
+
+    /**
+     * @param \SprykerEco\Zed\AvalaraTaxShipment\Business\Mapper\AvalaraLineItemMapperInterface $avalaraLineItemMapper
+     * @param \SprykerEco\Zed\AvalaraTaxShipment\Dependency\Service\AvalaraTaxShipmentToShipmentServiceInterface $shipmentService
+     */
+    public function __construct(
+        AvalaraLineItemMapperInterface $avalaraLineItemMapper,
+        AvalaraTaxShipmentToShipmentServiceInterface $shipmentService
+    ) {
         $this->avalaraLineItemMapper = $avalaraLineItemMapper;
+        $this->shipmentService = $shipmentService;
     }
 
     /**
@@ -66,13 +76,11 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
         AvalaraCreateTransactionRequestTransfer $avalaraCreateTransactionRequestTransfer,
         CalculableObjectTransfer $calculableObjectTransfer
     ): AvalaraCreateTransactionRequestTransfer {
-        foreach ($calculableObjectTransfer->getItems() as $itemTransfer) {
-            if (!$this->isItemHasShipmentMethod($itemTransfer)) {
-                continue;
-            }
+        $shipmentGroupTransfers = $this->shipmentService->groupItemsByShipment($calculableObjectTransfer->getItems());
 
+        foreach ($shipmentGroupTransfers as $shipmentGroupTransfer) {
             $avalaraLineItemTransfer = $this->avalaraLineItemMapper->mapShipmentTransferToAvalaraLineItemTransfer(
-                $itemTransfer->getShipmentOrFail(),
+                $shipmentGroupTransfer->getShipmentOrFail(),
                 new AvalaraLineItemTransfer(),
                 $calculableObjectTransfer->getPriceModeOrFail(),
                 $itemTransfer->getWarehouse()
@@ -85,6 +93,8 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
     }
 
     /**
+     * @deprecated Exists for Backward Compatibility reasons only.
+     *
      * @param \Generated\Shared\Transfer\AvalaraCreateTransactionRequestTransfer $avalaraCreateTransactionRequestTransfer
      * @param \Generated\Shared\Transfer\CalculableObjectTransfer $calculableObjectTransfer
      *
@@ -137,7 +147,7 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
      */
     protected function isShipmentMethodSelected(CalculableObjectTransfer $calculableObjectTransfer): bool
     {
-        if ($calculableObjectTransfer->getShipment() && $calculableObjectTransfer->getShipmentOrFail()->getMethod()) {
+        if ($this->isQuoteHasShipmentMethod($calculableObjectTransfer)) {
             return true;
         }
 
@@ -167,12 +177,28 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
     }
 
     /**
+     * @deprecated Exists for Backward Compatibility reasons only.
+     *
+     * @param \Generated\Shared\Transfer\CalculableObjectTransfer $calculableObjectTransfer
+     *
+     * @return bool
+     */
+    protected function isQuoteHasShipmentMethod(CalculableObjectTransfer $calculableObjectTransfer): bool
+    {
+        return $calculableObjectTransfer->getShipment()
+            && $calculableObjectTransfer->getShipmentOrFail()->getMethod()
+            && $calculableObjectTransfer->getShipmentOrFail()->getMethodOrFail()->getStoreCurrencyPrice();
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\ItemTransfer $itemTransfer
      *
      * @return bool
      */
     protected function isItemHasShipmentMethod(ItemTransfer $itemTransfer): bool
     {
-        return $itemTransfer->getShipment() && $itemTransfer->getShipmentOrFail()->getMethod();
+        return $itemTransfer->getShipment()
+            && $itemTransfer->getShipmentOrFail()->getMethod()
+            && $itemTransfer->getShipmentOrFail()->getMethodOrFail()->getStoreCurrencyPrice();
     }
 }
