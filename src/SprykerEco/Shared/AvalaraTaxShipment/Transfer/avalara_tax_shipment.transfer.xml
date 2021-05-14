@@ -56,6 +56,7 @@
 
     <transfer name="Item">
         <property name="shipment" type="Shipment"/>
+        <property name="warehouse" type="Stock"/>
     </transfer>
 
     <transfer name="Shipment">
@@ -83,6 +84,7 @@
 
     <transfer name="Address">
         <property name="zipCode" type="string"/>
+        <property name="iso2Code" type="string"/>
     </transfer>
 
     <transfer name="AvalaraCreateTransaction">
@@ -93,10 +95,16 @@
     </transfer>
 
     <transfer name="Stock">
+        <property name="name" type="string"/>
         <property name="address" type="StockAddress"/>
     </transfer>
 
     <transfer name="StockAddress">
+        <property name="country" type="Country"/>
+    </transfer>
+
+    <transfer name="Country">
+        <property name="iso2Code" type="string"/>
     </transfer>
 
 </transfers>
