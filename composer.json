@@ -1,45 +1,45 @@
 {
-  "name": "spryker-eco/avalara-tax-shipment",
-  "type": "library",
-  "description": "AvalaraTaxShipment module",
-  "license": "MIT",
-  "require": {
-    "php": ">=7.3",
-    "spryker-eco/avalara-tax-extension": "dev-feature/cc-12864/dev-minimal-avalara-integration",
-    "spryker/kernel": "^3.30.0",
-    "spryker/money": "^2.0.0",
-    "spryker/shipment": "^8.6.0",
-    "spryker/transfer": "^3.25.0",
-    "spryker/util-encoding": "^2.0.0"
-  },
-  "require-dev": {
-    "spryker/code-sniffer": "*",
-    "spryker/decimal-object": "*",
-    "spryker/propel": "*",
-    "spryker/testify": "*"
-  },
-  "autoload": {
-    "psr-4": {
-      "SprykerEco\\": "src/SprykerEco/"
+    "name": "spryker-eco/avalara-tax-shipment",
+    "type": "library",
+    "description": "AvalaraTaxShipment module",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.3",
+        "spryker-eco/avalara-tax-extension": "dev-feature/cc-12864/dev-minimal-avalara-integration",
+        "spryker/kernel": "^3.30.0",
+        "spryker/money": "^2.0.0",
+        "spryker/shipment": "^8.6.0",
+        "spryker/transfer": "^3.25.0",
+        "spryker/util-encoding": "^2.0.0"
+    },
+    "require-dev": {
+        "spryker/code-sniffer": "*",
+        "spryker/decimal-object": "*",
+        "spryker/propel": "*",
+        "spryker/testify": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "SprykerEco\\": "src/SprykerEco/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SprykerEcoTest\\": "tests/SprykerEcoTest/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/",
+        "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
     }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "SprykerEcoTest\\": "tests/SprykerEcoTest/"
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "scripts": {
-    "cs-check": "phpcs -p -s --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/",
-    "cs-fix": "phpcbf -p --standard=vendor/spryker/code-sniffer/Spryker/ruleset.xml src/ tests/"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.0.x-dev"
-    }
-  },
-  "config": {
-    "sort-packages": true
-  }
 }
