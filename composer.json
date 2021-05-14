@@ -5,7 +5,7 @@
   "license": "MIT",
   "require": {
     "php": ">=7.3",
-    "spryker-eco/avalara-tax-extension": "^1.0.0",
+    "spryker-eco/avalara-tax-extension": "dev-feature/cc-12864/dev-minimal-avalara-integration",
     "spryker/kernel": "^3.30.0",
     "spryker/money": "^2.0.0",
     "spryker/shipment": "^8.6.0",
