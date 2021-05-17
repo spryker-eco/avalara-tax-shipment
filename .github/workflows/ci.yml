@@ -53,15 +53,3 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: mbstring, intl, pdo_mysql
           tools: composer:v2
-
-#       suite-tests:
-#        name: "Suite tests(Stub)"
-#        runs-on: ubuntu-18.04
-#
-#        steps:
-#            -   name: Initialize env and run tests
-#                run: |
-#                     echo 'not implemented yet'
-#                     TODO need to add to spryker-eco/eco-ci github action for testing modules
-#                     git clone -b bugfix/spryker-shop-suite-contains-no-ci-scripts --single-branch https://github.com/spryker-eco/eco-ci.git ecoci
-#                     ./ecoci/build/travis.sh
