@@ -16,8 +16,8 @@ interface AvalaraTaxShipmentFacadeInterface
     /**
      * Specification:
      * - Expands `AvalaraCreateTransactionRequestTransfer` with shipments.
-     * - Requires `CalculableObjectTransfer.items.shipment.method.avalaraTaxCode` and `CalculableObjectTransfer.priceMode` to be set.
-     * - Requires `AvalaraCreateTransactionRequestTransfer.transaction` to be set.
+     * - Requires `CalculableObjectTransfer.priceMode` and `AvalaraCreateTransactionRequestTransfer.transaction` to be set.
+     * - Expects `CalculableObjectTransfer.items.shipment.method.avalaraTaxCode` to be set.
      *
      * @api
      *
