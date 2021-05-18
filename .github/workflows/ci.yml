@@ -1,13 +1,15 @@
 name: CI
 
-on: [
-    push,
-    workflow_dispatch
-]
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
 
 jobs:
   validation:
-    name: "Composer, CS, ArchSniffer"
+    name: "Validation"
     runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
@@ -18,7 +20,7 @@ jobs:
     env:
       APPLICATION_ENV: devtest
       APPLICATION_STORE: DE
-      PROJECT: after-pay
+      PROJECT: avalara-tax-shipment
 
     steps:
       - uses: actions/checkout@v2
@@ -51,5 +53,14 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, intl, pdo_mysql
+          extensions: mbstring, intl
           tools: composer:v2
+
+      - name: Run CodeStyle checks
+        run: composer cs-check
+
+      - name: PHPStan setup
+        run: composer stan-setup
+
+      - name: Run PHPStan
+        run: composer stan
