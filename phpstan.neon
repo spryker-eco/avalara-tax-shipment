@@ -1,4 +1,11 @@
 parameters:
     checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
-        - '#Call to an undefined method Generated\\Zed\\Ide\\AutoCompletion\|Spryker\\Shared\\Kernel\\LocatorLocatorInterface::[a-zA-Z]*\(\)#'
+        - '#Parameter .+ of method .+ has invalid typehint type .+Transfer#'
+        - '#Call to method .+ on an unknown class .+Transfer#'
+        - '#Return typehint of method .+ has invalid type .+Transfer#'
+        - '#Instantiated class .+Transfer not found#'
+        - '#PHPDoc tag @var for variable \$.+ contains unknown class Avalara\\.+#'
+        - '#Call to method .+\(\) on an unknown class Generated\\Zed\\Ide\\AutoCompletion#'
+        - '#Access to property \$.+ on an unknown class Avalara\\.+#'
+
