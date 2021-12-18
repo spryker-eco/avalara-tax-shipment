@@ -20,6 +20,8 @@ abstract class AbstractShipmentAvalaraTaxCalculator implements ShipmentAvalaraTa
 {
     /**
      * @uses \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_EXPENSE_TYPE
+     *
+     * @var string
      */
     protected const SHIPMENT_EXPENSE_TYPE = 'SHIPMENT_EXPENSE_TYPE';
 
@@ -73,7 +75,7 @@ abstract class AbstractShipmentAvalaraTaxCalculator implements ShipmentAvalaraTa
     {
         $taxRateSum = 0.0;
 
-        /** @var \Avalara\TransactionLineDetailModel[] $transactionLineDetailModels */
+        /** @var array<\Avalara\TransactionLineDetailModel> $transactionLineDetailModels */
         $transactionLineDetailModels = $this->utilEncodingService->decodeJson($transactionLineDetails, false);
         foreach ($transactionLineDetailModels as $transactionLineDetailModel) {
             $taxRateSum += $transactionLineDetailModel->rate ?? 0.0;
@@ -93,7 +95,7 @@ abstract class AbstractShipmentAvalaraTaxCalculator implements ShipmentAvalaraTa
     }
 
     /**
-     * @param \ArrayObject|\Generated\Shared\Transfer\ExpenseTransfer[] $expenseTransfers
+     * @param \Generated\Shared\Transfer\ExpenseTransfer[]|\ArrayObject $expenseTransfers
      * @param \Generated\Shared\Transfer\ShipmentTransfer $shipmentTransfer
      *
      * @return \Generated\Shared\Transfer\ExpenseTransfer|null
@@ -119,7 +121,7 @@ abstract class AbstractShipmentAvalaraTaxCalculator implements ShipmentAvalaraTa
     }
 
     /**
-     * @param \ArrayObject|\Generated\Shared\Transfer\ExpenseTransfer[] $expenseTransfers
+     * @param \Generated\Shared\Transfer\ExpenseTransfer[]|\ArrayObject $expenseTransfers
      * @param \Generated\Shared\Transfer\ShipmentTransfer $shipmentTransfer
      * @param float $taxRate
      * @param int $taxAmount

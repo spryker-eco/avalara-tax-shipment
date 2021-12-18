@@ -35,7 +35,7 @@ class AvalaraTaxShipmentFacade extends AbstractFacade implements AvalaraTaxShipm
             ->createAvalaraCreateTransactionRequestExpander()
             ->expandAvalaraCreateTransactionWithShipment(
                 $avalaraCreateTransactionRequestTransfer,
-                $calculableObjectTransfer
+                $calculableObjectTransfer,
             );
     }
 

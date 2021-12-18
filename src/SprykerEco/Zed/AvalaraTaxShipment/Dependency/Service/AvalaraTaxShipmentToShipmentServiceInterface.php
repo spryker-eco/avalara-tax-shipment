@@ -13,9 +13,9 @@ use Generated\Shared\Transfer\ShipmentTransfer;
 interface AvalaraTaxShipmentToShipmentServiceInterface
 {
     /**
-     * @param iterable|\Generated\Shared\Transfer\ItemTransfer[] $itemTransferCollection
+     * @param iterable<\Generated\Shared\Transfer\ItemTransfer> $itemTransferCollection
      *
-     * @return \ArrayObject|\Generated\Shared\Transfer\ShipmentGroupTransfer[]
+     * @return \Generated\Shared\Transfer\ShipmentGroupTransfer[]|\ArrayObject
      */
     public function groupItemsByShipment(iterable $itemTransferCollection): ArrayObject;
 
