@@ -38,7 +38,7 @@ class AvalaraShipmentCreateTransactionRequestAfterPlugin extends AbstractPlugin 
         return $this->getFacade()
             ->calculateShipmentTax(
                 $calculableObjectTransfer,
-                $avalaraCreateTransactionResponseTransfer
+                $avalaraCreateTransactionResponseTransfer,
             );
     }
 }

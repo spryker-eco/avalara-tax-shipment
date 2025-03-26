@@ -35,7 +35,7 @@ class AvalaraTaxShipmentBusinessFactory extends AbstractBusinessFactory
         return new SingleAddressShipmentAvalaraTaxCalculator(
             $this->getMoneyFacade(),
             $this->getShipmentService(),
-            $this->getUtilEncodingService()
+            $this->getUtilEncodingService(),
         );
     }
 
@@ -47,7 +47,7 @@ class AvalaraTaxShipmentBusinessFactory extends AbstractBusinessFactory
         return new MultiShipmentAbstractShipmentAvalaraTaxCalculator(
             $this->getMoneyFacade(),
             $this->getShipmentService(),
-            $this->getUtilEncodingService()
+            $this->getUtilEncodingService(),
         );
     }
 
@@ -58,7 +58,7 @@ class AvalaraTaxShipmentBusinessFactory extends AbstractBusinessFactory
     {
         return new AvalaraCreateTransactionRequestExpander(
             $this->createAvalaraLineItemMapper(),
-            $this->getShipmentService()
+            $this->getShipmentService(),
         );
     }
 

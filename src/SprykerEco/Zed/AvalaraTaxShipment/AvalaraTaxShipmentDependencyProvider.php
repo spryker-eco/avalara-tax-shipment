@@ -18,9 +18,19 @@ use SprykerEco\Zed\AvalaraTaxShipment\Dependency\Service\AvalaraTaxShipmentToUti
  */
 class AvalaraTaxShipmentDependencyProvider extends AbstractBundleDependencyProvider
 {
+    /**
+     * @var string
+     */
     public const FACADE_MONEY = 'FACADE_MONEY';
 
+    /**
+     * @var string
+     */
     public const SERVICE_SHIPMENT = 'SERVICE_SHIPMENT';
+
+    /**
+     * @var string
+     */
     public const SERVICE_UTIL_ENCODING = 'SERVICE_UTIL_ENCODING';
 
     /**

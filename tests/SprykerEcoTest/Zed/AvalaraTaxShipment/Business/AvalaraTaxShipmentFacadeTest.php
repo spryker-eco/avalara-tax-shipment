@@ -33,22 +33,45 @@ class AvalaraTaxShipmentFacadeTest extends Unit
 {
     /**
      * @uses \Spryker\Shared\Price\PriceConfig::PRICE_MODE_GROSS
+     *
+     * @var string
      */
     protected const PRICE_MODE_GROSS = 'GROSS_MODE';
 
     /**
      * @uses \Spryker\Shared\Shipment\ShipmentConfig::SHIPMENT_EXPENSE_TYPE
+     *
+     * @var string
      */
     protected const SHIPMENT_EXPENSE_TYPE = 'SHIPMENT_EXPENSE_TYPE';
 
+    /**
+     * @var string
+     */
     protected const TEST_SHIPPING_METHOD_KEY = 'test-shipping-method-key';
+
+    /**
+     * @var string
+     */
     protected const TEST_ZIP_CODE_MI = '48326';
+
+    /**
+     * @var string
+     */
     protected const TEST_ZIP_CODE_NY = '10001';
+
+    /**
+     * @var int
+     */
     protected const TEST_SHIPMENT_METHOD_PRICE = 490;
     protected const TEST_SHIPMENT_TAX_RATE_MI = 6.0;
     protected const TEST_SHIPMENT_TAX_AMOUNT_MI = 0.28;
     protected const TEST_SHIPMENT_TAX_RATE_NY = 8.875;
     protected const TEST_SHIPMENT_TAX_AMOUNT_NY = 0.40;
+
+    /**
+     * @var string
+     */
     protected const TEST_AVALARA_TAX_CODE = 'TESTCODE';
 
     /**
@@ -81,7 +104,7 @@ class AvalaraTaxShipmentFacadeTest extends Unit
         // Act
         $avalaraCreateTransactionRequestTransfer = $this->tester->getFacade()->expandAvalaraCreateTransactionWithShipment(
             $avalaraCreateTransactionRequestTransfer,
-            $calculableObjectTransfer
+            $calculableObjectTransfer,
         );
 
         // Assert
@@ -114,7 +137,7 @@ class AvalaraTaxShipmentFacadeTest extends Unit
             [
                 $expenseTransferMi,
                 $expenseTransferNy,
-            ]
+            ],
         )->setOriginalQuote($quoteTransfer);
 
         $avalaraTransactionTransferMi = (new AvalaraTransactionLineBuilder([
@@ -139,7 +162,7 @@ class AvalaraTaxShipmentFacadeTest extends Unit
             [
                 $avalaraTransactionTransferMi,
                 $avalaraTransactionTransferNy,
-            ]
+            ],
         );
         $avalaraCreateTransactionResponseTransfer = (new AvalaraCreateTransactionResponseBuilder())->build();
         $avalaraCreateTransactionResponseTransfer->setTransaction($avalaraTransactionTransfer);
@@ -147,7 +170,7 @@ class AvalaraTaxShipmentFacadeTest extends Unit
         // Act
         $calculableObjectTransfer = $this->tester->getFacade()->calculateShipmentTax(
             $calculableObjectTransfer,
-            $avalaraCreateTransactionResponseTransfer
+            $avalaraCreateTransactionResponseTransfer,
         );
 
         // Assert
@@ -185,7 +208,7 @@ class AvalaraTaxShipmentFacadeTest extends Unit
             ],
             [
                 $expenseTransfer,
-            ]
+            ],
         )
             ->setShipment($shipmentTransfer)
             ->setOriginalQuote($quoteTransfer);
@@ -212,7 +235,7 @@ class AvalaraTaxShipmentFacadeTest extends Unit
             [
                 $avalaraTransactionTransfer1,
                 $avalaraTransactionTransfer2,
-            ]
+            ],
         );
         $avalaraCreateTransactionResponseTransfer = (new AvalaraCreateTransactionResponseBuilder())->build();
         $avalaraCreateTransactionResponseTransfer->setTransaction($avalaraTransactionTransfer);
@@ -220,7 +243,7 @@ class AvalaraTaxShipmentFacadeTest extends Unit
         // Act
         $calculableObjectTransfer = $this->tester->getFacade()->calculateShipmentTax(
             $calculableObjectTransfer,
-            $avalaraCreateTransactionResponseTransfer
+            $avalaraCreateTransactionResponseTransfer,
         );
 
         // Assert
@@ -276,8 +299,8 @@ class AvalaraTaxShipmentFacadeTest extends Unit
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
-     * @param \Generated\Shared\Transfer\ExpenseTransfer[] $expenseTransfers
+     * @param array<\Generated\Shared\Transfer\ItemTransfer> $itemTransfers
+     * @param array<\Generated\Shared\Transfer\ExpenseTransfer> $expenseTransfers
      *
      * @return \Generated\Shared\Transfer\CalculableObjectTransfer
      */
@@ -294,7 +317,7 @@ class AvalaraTaxShipmentFacadeTest extends Unit
 
     /**
      * @param string $addresses
-     * @param \Generated\Shared\Transfer\AvalaraTransactionLineTransfer[] $avalaraTransactionLineTransfers
+     * @param array<\Generated\Shared\Transfer\AvalaraTransactionLineTransfer> $avalaraTransactionLineTransfers
      *
      * @return \Generated\Shared\Transfer\AvalaraTransactionTransfer
      */

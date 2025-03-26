@@ -17,16 +17,23 @@ use SprykerEco\Zed\AvalaraTaxShipment\Business\Calculator\ShipmentAvalaraTaxCalc
  */
 class ShipmentTaxCalculatorStrategyResolver implements ShipmentTaxCalculatorStrategyResolverInterface
 {
+    /**
+     * @var string
+     */
     public const STRATEGY_KEY_WITHOUT_MULTI_SHIPMENT = 'STRATEGY_KEY_WITHOUT_MULTI_SHIPMENT';
+
+    /**
+     * @var string
+     */
     public const STRATEGY_KEY_WITH_MULTI_SHIPMENT = 'STRATEGY_KEY_WITH_MULTI_SHIPMENT';
 
     /**
-     * @var \Closure[]
+     * @var array<\Closure>
      */
     protected $strategyContainer;
 
     /**
-     * @param \Closure[] $strategyContainer
+     * @param array<\Closure> $strategyContainer
      */
     public function __construct(array $strategyContainer)
     {

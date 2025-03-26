@@ -37,7 +37,7 @@ class AvalaraShipmentCreateTransactionRequestExpanderPlugin extends AbstractPlug
     ): AvalaraCreateTransactionRequestTransfer {
         return $this->getFacade()->expandAvalaraCreateTransactionWithShipment(
             $avalaraCreateTransactionRequestTransfer,
-            $calculableObjectTransfer
+            $calculableObjectTransfer,
         );
     }
 }

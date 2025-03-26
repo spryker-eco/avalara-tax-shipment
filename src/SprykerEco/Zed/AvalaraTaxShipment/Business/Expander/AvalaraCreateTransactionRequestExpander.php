@@ -57,13 +57,13 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
         if ($this->isMultiAddressShipment($calculableObjectTransfer)) {
             return $this->expandAvalaraCreateTransactionWithItemLevelShipment(
                 $avalaraCreateTransactionRequestTransfer,
-                $calculableObjectTransfer
+                $calculableObjectTransfer,
             );
         }
 
         return $this->expandAvalaraCreateTransactionWithQuoteLevelShipment(
             $avalaraCreateTransactionRequestTransfer,
-            $calculableObjectTransfer
+            $calculableObjectTransfer,
         );
     }
 
@@ -84,7 +84,7 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
                 $shipmentGroupTransfer->getShipmentOrFail(),
                 new AvalaraLineItemTransfer(),
                 $calculableObjectTransfer->getPriceModeOrFail(),
-                $this->findExclusiveStockForItems($shipmentGroupTransfer->getItems())
+                $this->findExclusiveStockForItems($shipmentGroupTransfer->getItems()),
             );
 
             $avalaraCreateTransactionRequestTransfer->getTransactionOrFail()->addLine($avalaraLineItemTransfer);
@@ -109,7 +109,7 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
             $calculableObjectTransfer->getShipmentOrFail(),
             new AvalaraLineItemTransfer(),
             $calculableObjectTransfer->getPriceModeOrFail(),
-            $this->findExclusiveStockForItems($calculableObjectTransfer->getItems())
+            $this->findExclusiveStockForItems($calculableObjectTransfer->getItems()),
         );
 
         $avalaraCreateTransactionRequestTransfer->getTransactionOrFail()->addLine($avalaraLineItemTransfer);
@@ -118,7 +118,7 @@ class AvalaraCreateTransactionRequestExpander implements AvalaraCreateTransactio
     }
 
     /**
-     * @param \ArrayObject|\Generated\Shared\Transfer\ItemTransfer[] $itemTransfers
+     * @param \Generated\Shared\Transfer\ItemTransfer[]|\ArrayObject $itemTransfers
      *
      * @return \Generated\Shared\Transfer\StockTransfer|null
      */
