@@ -1,6 +1,6 @@
 # AvalaraTaxShipment Module
 [![CI](https://github.com/spryker-eco/avalara-tax-shipment/actions/workflows/ci.yml/badge.svg)](https://github.com/spryker-eco/avalara-tax-shipment/actions/workflows/ci.yml)
-[![Latest Stable Version](https://poser.pugx.org/spryker/avalara-tax-shipment/v/stable.svg)](https://packagist.org/packages/spryker/avalara-tax-shipment)
+[![Latest Stable Version](https://poser.pugx.org/spryker-eco/avalara-tax-shipment/v/stable.svg)](https://packagist.org/packages/spryker-eco/avalara-tax-shipment)
 [![License](https://img.shields.io/github/license/spryker-eco/avalara-tax-shipment.svg?b=master)](https://github.com/spryker-eco/avalara-tax-shipment)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.2-8892BF.svg)](https://php.net/)
 
