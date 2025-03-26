@@ -1,4 +1,5 @@
 parameters:
+    level: 8
     checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
         - '#Parameter .+ of method .+ has invalid typehint type .+Transfer#'
