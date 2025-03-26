@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
-<transfers xmlns="spryker:transfer-01"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="spryker:transfer-01 http://static.spryker.com/transfer-01.xsd">
+<transfers xmlns="spryker:transfer-01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="spryker:transfer-01 http://static.spryker.com/transfer-01.xsd">
 
     <transfer name="ShipmentMethod">
         <property name="avalaraTaxCode" type="string"/>
@@ -54,7 +52,7 @@
         <property name="transaction" type="AvalaraCreateTransaction"/>
     </transfer>
 
-    <transfer name="Item">/sd
+    <transfer name="Item">
         <property name="shipment" type="Shipment"/>
         <property name="warehouse" type="Stock" strict="true"/>
     </transfer>
